@@ -1,0 +1,54 @@
+[
+  {
+    "title": "How does BLOCKSURANCE work?",
+    "description": "1) Stake 4SHURE token. / 2) Create a Vault for the ERC20 token you want to insure. / 3) Deposit your tokens to vault and recieve instant coverage."
+  },
+  {
+    "title": "What problem is BLOCKSURANCE solving?",
+    "description": "We are helping investors into the Ethereum ecosystem protect their investments from loss."
+  },
+  {
+    "title": "How many tokens does BLOCKSURANCE support?",
+    "description": "BLOCKSURANCE supports more than 100 tokens./ Login to the app to see the full list."
+  },
+  {
+    "title": "Who owns individual Vault contracts?",
+    "description": "The creator of each Vault is designated as the owner and has full control of the contract."
+  },
+  {
+    "title": "What is the maximum insurable value per token?",
+    "description": "Maximum insurable value is 10,000.00 ETH."
+  },
+  {
+    "title": "What is the fee charged for depositing tokens?",
+    "description": "BLOCKSURANCE charges 0.005 ETH, plus 2% of deposited tokens."
+  },
+  {
+    "title": "Why do you charge 2% fee on insurance Vaults?",
+    "description": "BLOCKSURANCE's fee structure is designed to deliver optimal value for our clients. We guarantee payouts in case of an incident."
+  },
+  {
+    "title": "How much 4SHURE do I need to stake to qualify for coverage?",
+    "description": "Minimal 4SHURE stake is 20,000 tokens/ during IDO  this was about $1K | 0.3 ETH"
+  },
+  {
+    "title": "How many Vaults can I start?",
+    "description": "You can start as many Vaults as you want."
+  },
+  {
+    "title": "When can I withdraw tokens from my Vault?",
+    "description": "You can withdraw your token from a Vault at any time. /Withdrawing tokens will void your coverage for that particular Vault."
+  },
+  {
+    "title": "What is the minimal lockup period for a 4SHURE stake?",
+    "description": "Minimal staking period for 4SHURE is 90 days."
+  },
+  {
+    "title": "What APR can I expect to recieve for staking 4SHURE?",
+    "description": "180 days or less: 21%/ 360 days or less: 33%/ more than a year: 45%"
+  },
+  {
+    "title": "What rewards do you offer to partners for refferal?",
+    "description": "0.5% on vault deposits/  5% rewards on staking"
+  }
+]
