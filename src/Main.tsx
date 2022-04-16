@@ -18,6 +18,7 @@ import Contact from "./components/Contact";
 import { Landing } from "./components/Landing";
 import useWindowDimensions from "./hooks/useWindowDimensions";
 import Login from "./components/Login";
+import InvalidChain from "./components/InvalidChain";
 
 const useScrollToTop = () => {
   const location = useLocation();
@@ -113,9 +114,11 @@ const Main: React.FC = () => {
     isMounted.current = true;
 
     async function updateBalance() {
-      if (web3instance && account) {
+      if (web3instance && account && isMounted.current) {
+        setValidpin(false);
         const chain = await web3instance?.eth.chainId();
         setChainId(chain);
+        // console.log(chain);
         // const chain = await web3instance?.eth.net.getId();
         // setChainId(chain);
         let network = getChainData(chain).network;
@@ -140,6 +143,9 @@ const Main: React.FC = () => {
       setEtherBalance(balance);
     }
     if (account?.length) {
+      if (chainId !== 1 && chainId !== 31337) {
+        return <InvalidChain />;
+      }
       if (!validpin) {
         return (
           <Flex align="center" justify="center" padding="10px" minH="90vh">

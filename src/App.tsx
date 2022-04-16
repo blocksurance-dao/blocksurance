@@ -38,7 +38,7 @@ const App: React.FC = () => {
           walletlink: {
             package: WalletLink,
             options: {
-              appName: "Shurik.io",
+              appName: "BLOCKSURANCE",
               infuraId: INFURA_ID,
             },
           },
