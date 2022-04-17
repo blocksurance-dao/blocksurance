@@ -75,7 +75,7 @@ export default function About() {
             Want to insure your ERC20 tokens?
           </chakra.h1>
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-            <StatsCard title={"Step one"} stat={"Stake 4SHURE coin"} />
+            <StatsCard title={"Step one"} stat={"Stake 4SURE coin"} />
             <StatsCard title={"Step two"} stat={"Create your vault"} />
             <StatsCard title={"Step three"} stat={"Deposit tokens to vault"} />
           </SimpleGrid>
