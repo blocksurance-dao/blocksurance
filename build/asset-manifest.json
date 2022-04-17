@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.1a0bad1b.chunk.css",
-    "main.js": "/static/js/main.48e9dbfa.chunk.js",
-    "main.js.map": "/static/js/main.48e9dbfa.chunk.js.map",
+    "main.js": "/static/js/main.a16dd676.chunk.js",
+    "main.js.map": "/static/js/main.a16dd676.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.26cf4102.js",
     "runtime-main.js.map": "/static/js/runtime-main.26cf4102.js.map",
     "static/css/2.111e428f.chunk.css": "/static/css/2.111e428f.chunk.css",
@@ -16,6 +16,7 @@
     "static/js/2.f0ea38f2.chunk.js.LICENSE.txt": "/static/js/2.f0ea38f2.chunk.js.LICENSE.txt",
     "static/media/BlocksuranceWeb1.4b678eb3.png": "/static/media/BlocksuranceWeb1.4b678eb3.png",
     "static/media/blocksurance.de54a922.png": "/static/media/blocksurance.de54a922.png",
+    "static/media/blocksurance256.03450113.png": "/static/media/blocksurance256.03450113.png",
     "static/media/index.css": "/static/media/inter-vietnamese-400-normal.a1bc9a8f.woff2"
   },
   "entrypoints": [
@@ -23,6 +24,6 @@
     "static/css/2.111e428f.chunk.css",
     "static/js/2.f0ea38f2.chunk.js",
     "static/css/main.1a0bad1b.chunk.css",
-    "static/js/main.48e9dbfa.chunk.js"
+    "static/js/main.a16dd676.chunk.js"
   ]
 }
