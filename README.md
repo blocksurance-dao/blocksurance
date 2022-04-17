@@ -8,7 +8,7 @@
 
 **Note:** This starter uses [Web3](https://github.com/ethereum/web3.js#readme).
 
-This repo contains the BLOCKSURANCE dApp that is built with [React](https://reactjs.org/), and [Web3](https://github.com/ethereum/web3.js#readme): **[Demo Link](https://blocksurance.netlify.com/)**.
+This repo contains the BLOCKSURANCE dApp that is built with [React](https://reactjs.org/), and [Web3](https://github.com/ethereum/web3.js#readme): **[Website Link](https://blocksurance.io/)**.
 
 It follows the [JAMstack architecture](https://jamstack.org) by using Git as a single source of truth, and [Netlify](https://www.netlify.com) for continuous deployment, and CDN distribution.
 
