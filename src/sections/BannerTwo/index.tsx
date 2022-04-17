@@ -1,6 +1,6 @@
 import { Row, Col } from "../../reusecore/Layout";
 import Heading from "../../reusecore/Heading";
-import { Center, HStack, Box, Text } from "@chakra-ui/react";
+import { Center, HStack, Box, Text, Link } from "@chakra-ui/react";
 
 import { Icon } from "@chakra-ui/react";
 import { FaKey } from "react-icons/fa";
@@ -23,7 +23,14 @@ const BannerTwo = () => {
               <Box className="description">
                 <Text as="span" z-index="1">
                   Create your digital asset vault with us and recieve instant
-                  coverage when you stake 4SHURE.
+                  coverage when you stake{" "}
+                  <Link
+                    href={
+                      "https://etherscan.io/address/0x88888883D7434785e02AC8475B9c9E7b1d3Dd293"
+                    }
+                  >
+                    4SURE.
+                  </Link>
                 </Text>
               </Box>
 
