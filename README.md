@@ -4,6 +4,8 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b654c94e-08a6-4b79-b443-7837581b1d8d/deploy-status)](https://app.netlify.com/sites/gatsby-starter-netlify-cms-ci/deploys)
 
+**Coin:** BLOCKSURANCE (4SURE) ERC20 Token on [etherscan](https://etherscan.io/address/0x88888883D7434785e02AC8475B9c9E7b1d3Dd293).
+
 **Note:** This starter uses [Web3](https://github.com/ethereum/web3.js#readme).
 
 This repo contains the BLOCKSURANCE dApp that is built with [React](https://reactjs.org/), and [Web3](https://github.com/ethereum/web3.js#readme): **[Demo Link](https://blocksurance.netlify.com/)**.
