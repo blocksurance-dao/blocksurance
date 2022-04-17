@@ -21,7 +21,7 @@ import useWindowDimensions from "../hooks/useWindowDimensions";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import type { LinkProps } from "react-router-dom";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import logo from "../assets/images/blocksurance.png";
+import logo from "../assets/images/blocksurance256.png";
 import styled from "styled-components";
 
 const NavbarWrapper = styled.div`

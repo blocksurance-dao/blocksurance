@@ -22,7 +22,7 @@ const BannerTwo = () => {
 
               <Box className="description">
                 <Text as="span" z-index="1">
-                  Create your digital asset vault with us and recieve instant
+                  Create your digital asset vault with us and receive instant
                   coverage when you stake{" "}
                   <Link
                     href={
