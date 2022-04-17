@@ -1,7 +1,7 @@
 [
   {
     "title": "How does BLOCKSURANCE work?",
-    "description": "1) Stake 4SHURE token. / 2) Create a Vault for the ERC20 token you want to insure. / 3) Deposit your tokens to vault and recieve instant coverage."
+    "description": "1) Stake 4SURE token. / 2) Create a Vault for the ERC20 token you want to insure. / 3) Deposit your tokens to vault and recieve instant coverage."
   },
   {
     "title": "What problem is BLOCKSURANCE solving?",
@@ -28,8 +28,8 @@
     "description": "BLOCKSURANCE's fee structure is designed to deliver optimal value for our clients. We guarantee payouts in case of an incident."
   },
   {
-    "title": "How much 4SHURE do I need to stake to qualify for coverage?",
-    "description": "Minimal 4SHURE stake is 20,000 tokens/ during IDO  this was about $1K | 0.3 ETH"
+    "title": "How much 4SURE do I need to stake to qualify for coverage?",
+    "description": "Minimal 4SURE stake is 20,000 tokens/ during IDO  this was about $1K | 0.3 ETH"
   },
   {
     "title": "How many Vaults can I start?",
@@ -40,11 +40,11 @@
     "description": "You can withdraw your token from a Vault at any time. /Withdrawing tokens will void your coverage for that particular Vault."
   },
   {
-    "title": "What is the minimal lockup period for a 4SHURE stake?",
-    "description": "Minimal staking period for 4SHURE is 90 days."
+    "title": "What is the minimal lockup period for a 4SURE stake?",
+    "description": "Minimal staking period for 4SURE is 90 days."
   },
   {
-    "title": "What APR can I expect to recieve for staking 4SHURE?",
+    "title": "What APR can I expect to recieve for staking 4SURE?",
     "description": "180 days or less: 21%/ 360 days or less: 33%/ more than a year: 45%"
   },
   {
