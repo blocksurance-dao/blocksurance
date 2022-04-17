@@ -1,6 +1,6 @@
 {
   "short_name": "BLOCKSURANCE",
-  "name": "BlockSurance Interface",
+  "name": "BlockSurance React Typescript Interface",
   "icons": [
     {
       "src": "blocksurance.ico",
