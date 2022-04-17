@@ -11,6 +11,7 @@ import Main from "./Main";
 
 const App: React.FC = () => {
   const INFURA_ID = process.env.REACT_APP_INFURA_ID;
+  const FORTMATIC = process.env.REACT_APP_FORTMATIC_KEY;
   const [web3modal, setModal] = useState<any>();
   const { colorMode } = useColorMode();
 
@@ -32,7 +33,7 @@ const App: React.FC = () => {
           fortmatic: {
             package: Fortmatic, // required
             options: {
-              key: "pk_live_5A7C91B2FC585A17", // required
+              key: FORTMATIC, // required
             },
           },
           walletlink: {
