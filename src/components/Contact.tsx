@@ -2,18 +2,22 @@ import { useEffect } from "react";
 import {
   Flex,
   Box,
+  Link,
   Heading,
   IconButton,
   VStack,
   HStack,
   Text,
+  Image,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { useLocation } from "react-router-dom";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import { FaGithub, FaTelegram, FaDiscord } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import snapshot from "../assets/images/snapshot.png";
 
 const useScrollToTop = () => {
   const location = useLocation();
@@ -78,6 +82,15 @@ export default function About() {
                 support@blocksurance.io
               </Text>
             </HStack>
+            <Link
+              href={
+                "https://etherscan.io/address/0x88888883D7434785e02AC8475B9c9E7b1d3Dd293"
+              }
+              isExternal
+            >
+              BLOCKSURANCE (4SURE){" "}
+              <ExternalLinkIcon mx="4px" w={5} h={5} color="blue.400" />
+            </Link>
             <HStack
               mt={{ lg: 10, md: 10 }}
               spacing={5}
@@ -92,14 +105,22 @@ export default function About() {
                 _hover={{ bg: colorMode === "dark" ? "gray.700" : "gray.300" }}
                 icon={<FaTelegram size="28px" />}
               />
-              <IconButton
-                aria-label="github"
-                variant="ghost"
-                size="lg"
-                isRound={true}
-                _hover={{ bg: colorMode === "dark" ? "gray.700" : "gray.300" }}
-                icon={<FaGithub size="28px" />}
-              />
+              <Link
+                href={"https://github.com/blocksurance-dao/blocksurance"}
+                isExternal
+              >
+                <IconButton
+                  aria-label="github"
+                  variant="ghost"
+                  size="lg"
+                  isRound={true}
+                  _hover={{
+                    bg: colorMode === "dark" ? "gray.700" : "gray.300",
+                  }}
+                  icon={<FaGithub size="28px" />}
+                />
+              </Link>
+
               <IconButton
                 aria-label="discord"
                 variant="ghost"
@@ -108,6 +129,28 @@ export default function About() {
                 _hover={{ bg: colorMode === "dark" ? "gray.700" : "gray.300" }}
                 icon={<FaDiscord size="28px" />}
               />
+              <Link
+                href={"https://snapshot.org/#/0xswinger.eth/about"}
+                isExternal
+              >
+                <IconButton
+                  aria-label="snapshot"
+                  variant="ghost"
+                  size="lg"
+                  isRound={true}
+                  _hover={{
+                    bg: colorMode === "dark" ? "gray.700" : "gray.300",
+                  }}
+                  icon={
+                    <Image
+                      borderRadius="full"
+                      boxSize="27px"
+                      src={snapshot}
+                      alt=""
+                    />
+                  }
+                />
+              </Link>
             </HStack>
           </VStack>
         </Box>
