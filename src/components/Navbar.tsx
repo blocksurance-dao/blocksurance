@@ -14,6 +14,7 @@ import {
   useColorMode,
   useColorModeValue,
   Stack,
+  Link as CLink,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
@@ -146,6 +147,23 @@ const Navbar: FC<{
                     </Box>
                     <Box p={3}>
                       <NavLink to={"/contact"}>{"Contact"}</NavLink>
+                    </Box>
+                    <Box p={3}>
+                      <CLink
+                        href={"https://snapshot.org/#/0xswinger.eth/about"}
+                      >
+                        DAO
+                      </CLink>
+                    </Box>
+                    <Box p={3}>
+                      <CLink
+                        href={
+                          "https://etherscan.io/address/0x88888883D7434785e02AC8475B9c9E7b1d3Dd293"
+                        }
+                        isExternal
+                      >
+                        Coin
+                      </CLink>
                     </Box>
                   </MenuList>
                 </Box>
