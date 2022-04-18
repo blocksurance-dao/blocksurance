@@ -6,6 +6,8 @@
 
 **Coin:** View BLOCKSURANCE (4SURE) ERC20 Token on [etherscan](https://etherscan.io/address/0x88888883D7434785e02AC8475B9c9E7b1d3Dd293).
 
+**DAO:** BLOCKSURANCE DAO is live on [Snapshot!](https://snapshot.org/#/0xswinger.eth/about).
+
 **Note:** BLOCKSURANCE uses [Web3](https://github.com/ethereum/web3.js#readme).
 
 This repo contains the BLOCKSURANCE dApp that is built with [React](https://reactjs.org/), and [Web3](https://github.com/ethereum/web3.js#readme): **[Website Link](https://blocksurance.io/)**.
