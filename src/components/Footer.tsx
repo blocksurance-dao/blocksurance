@@ -105,7 +105,7 @@ export const Footer = () => (
         />
 
         <NavLink to={URLS[1]}>{Links[1]}</NavLink>
-        <Link href={"https://discord.com"}>Discord</Link>
+        <Link href={"https://discord.gg/XpA8nFGJfZ"}>Discord</Link>
         <Link href={"https://github.com/blocksurance-dao/blocksurance"}>
           GitHub
         </Link>

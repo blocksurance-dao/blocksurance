@@ -97,14 +97,19 @@ export default function About() {
               px={5}
               alignItems="flex-start"
             >
-              <IconButton
-                aria-label="facebook"
-                variant="ghost"
-                size="lg"
-                isRound={true}
-                _hover={{ bg: colorMode === "dark" ? "gray.700" : "gray.300" }}
-                icon={<FaTelegram size="28px" />}
-              />
+              <Link href={"https://t.me/blocksurance"} isExternal>
+                <IconButton
+                  aria-label="facebook"
+                  variant="ghost"
+                  size="lg"
+                  isRound={true}
+                  _hover={{
+                    bg: colorMode === "dark" ? "gray.700" : "gray.300",
+                  }}
+                  icon={<FaTelegram size="28px" />}
+                />
+              </Link>
+
               <Link
                 href={"https://github.com/blocksurance-dao/blocksurance"}
                 isExternal
@@ -120,15 +125,19 @@ export default function About() {
                   icon={<FaGithub size="28px" />}
                 />
               </Link>
+              <Link href={"https://discord.gg/XpA8nFGJfZ"} isExternal>
+                <IconButton
+                  aria-label="discord"
+                  variant="ghost"
+                  size="lg"
+                  isRound={true}
+                  _hover={{
+                    bg: colorMode === "dark" ? "gray.700" : "gray.300",
+                  }}
+                  icon={<FaDiscord size="28px" />}
+                />
+              </Link>
 
-              <IconButton
-                aria-label="discord"
-                variant="ghost"
-                size="lg"
-                isRound={true}
-                _hover={{ bg: colorMode === "dark" ? "gray.700" : "gray.300" }}
-                icon={<FaDiscord size="28px" />}
-              />
               <Link
                 href={"https://snapshot.org/#/0xswinger.eth/about"}
                 isExternal
