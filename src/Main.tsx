@@ -15,6 +15,7 @@ import InterfaceMain from "./components/InterfaceMain";
 import FAQ from "./components/FAQ";
 import About from "./components/About";
 import Contact from "./components/Contact";
+import Minter from "./components/Minter";
 import { Landing } from "./components/Landing";
 import useWindowDimensions from "./hooks/useWindowDimensions";
 import Login from "./components/Login";
@@ -217,6 +218,65 @@ const Main: React.FC = () => {
     );
   }
 
+  function Airdrop() {
+    useScrollToTop();
+    async function _updateBalance() {
+      let balance: any = await web3instance?.eth.getBalance(account);
+      setEtherBalance(balance);
+    }
+    if (account?.length) {
+      if (chainId !== 1 && chainId !== 31337) {
+        return <InvalidChain />;
+      }
+      if (!validpin) {
+        return (
+          <Flex align="center" justify="center" padding="10px" minH="90vh">
+            <Box
+              mt={"80px"}
+              minW={width > 600 ? "80%" : "95%"}
+              minH="70vh"
+              alignSelf="center"
+              border={width > 450 ? "1px" : "0px"}
+              borderStyle="solid"
+              borderColor="gray.600"
+              borderRadius="3xl"
+              padding={width > 600 ? "50px" : "20px"}
+            >
+              <Box
+                minH={height / 2}
+                minW={width > 600 ? "80%" : "98%"}
+                border="1px"
+                borderStyle="solid"
+                borderColor="gray.600"
+                borderRadius="3xl"
+              >
+                <Login
+                  web3={web3instance}
+                  account={account}
+                  network={network}
+                  regComplete={regComplete}
+                  // registered={registered}
+                  // validpin={validpin}
+                />
+              </Box>
+            </Box>
+          </Flex>
+        );
+      }
+
+      return (
+        <Minter
+          web3={web3instance}
+          account={account}
+          network={network}
+          updateBalance={_updateBalance}
+        />
+      );
+    } else {
+      return <NoMeta />;
+    }
+  }
+
   return (
     <Layout>
       <Navbar ConnectComponent={Connect} />
@@ -228,6 +288,7 @@ const Main: React.FC = () => {
         </Route>
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/airdrop" element={<Airdrop />} />
       </Routes>
       {/* </Container> */}
       <Footer />
