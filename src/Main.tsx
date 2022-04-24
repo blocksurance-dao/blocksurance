@@ -280,17 +280,15 @@ const Main: React.FC = () => {
   return (
     <Layout>
       <Navbar ConnectComponent={Connect} />
-      {/* <Container as="main" mt="80"> */}
+
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />}>
-          {/* <Route path=":id" element={<Contact />} /> */}
-        </Route>
+        <Route path="/about" element={<About />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/airdrop" element={<Airdrop />} />
       </Routes>
-      {/* </Container> */}
+
       <Footer />
     </Layout>
   );
