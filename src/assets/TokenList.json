@@ -90,11 +90,11 @@
     },
     {
       "chainId": 1,
-      "name": "Basis Cash",
-      "address": "0x3449FC1Cd036255BA1EB19d65fF4BA2b8903A69a",
-      "symbol": "BAC",
+      "name": "Ape Coin",
+      "address": "0x4d224452801ACEd8B2F0aebE155379bb5D594381",
+      "symbol": "APE",
       "decimals": 18,
-      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/7813.png"
+      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/18876.png"
     },
     {
       "chainId": 1,
@@ -163,7 +163,7 @@
     },
     {
       "chainId": 1,
-      "name": "Dai",
+      "name": "Dai Stablecoin",
       "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
       "symbol": "DAI",
       "decimals": 18,
@@ -296,6 +296,14 @@
       "symbol": "MKR",
       "decimals": 18,
       "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/1518.png"
+    },
+    {
+      "chainId": 1,
+      "name": "Celsius",
+      "address": "0xaaaebe6fe48e54f431b0c390cfaf0b017d09d42d",
+      "symbol": "CEL",
+      "decimals": 18,
+      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/2700.png"
     },
     {
       "chainId": 1,
