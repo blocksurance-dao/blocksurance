@@ -8,6 +8,8 @@
 
 **DAO:** BLOCKSURANCE DAO is live on [Snapshot!](https://snapshot.org/#/0xswinger.eth/about).
 
+**Whitepaper:** Read our [whitepaper!](https://github.com/blocksurance-dao/blocksurance/blob/master/blocksurance-whitepaper.pdf).
+
 **Note:** BLOCKSURANCE uses [Web3](https://github.com/ethereum/web3.js#readme).
 
 This repo contains the BLOCKSURANCE dApp that is built with [React](https://reactjs.org/), and [Web3](https://github.com/ethereum/web3.js#readme): **[Website Link](https://blocksurance.io/)**.
