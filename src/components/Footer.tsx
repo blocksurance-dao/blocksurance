@@ -8,13 +8,15 @@ import {
   Text,
   useColorModeValue,
   VisuallyHidden,
+  Image,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaInstagram, FaTwitter } from "react-icons/fa"; //, FaYoutube
 
 import logo from "../assets/images/blocksurance.png";
 import { Logo } from "./Logo";
 import { useMatch, useResolvedPath } from "react-router-dom";
 import { Link as Dlink } from "react-router-dom";
+import snapshot from "../assets/images/snapshot.png";
 
 import type { LinkProps } from "react-router-dom";
 const Links = ["Home", "About", "Contact"];
@@ -74,29 +76,15 @@ export const Footer = () => (
   <Box
     as="footer"
     role="contentinfo"
-    //py={{ base: "12", md: "10" }}
     bg={useColorModeValue("gray.100", "gray.900")}
     color={useColorModeValue("gray.700", "gray.200")}
     px={4}
     position="sticky"
-    //width="100%"
-    //padding="20px"
-    //position="fixed"
-    // bottom={0}
     minW="400px"
   >
-    <Container
-      as={Stack}
-      //maxW={'6xl'}
-      py={4}
-      mb={0}
-      spacing={4}
-      //justify={'center'}
-      align={"center"}
-    >
+    <Container as={Stack} py={4} mb={0} spacing={4} align={"center"}>
       <Stack direction={"row"} spacing={6}>
         <Logo
-          //h="40vmin"
           pointerEvents="none"
           boxSize="40px"
           padding="5px"
@@ -129,13 +117,25 @@ export const Footer = () => (
       >
         <Text>© 2021 BlockSurance DAO. All rights reserved</Text>
         <Stack direction={"row"} spacing={6}>
-          <SocialButton label={"Twitter"} href={"https://tritter.com"}>
+          <SocialButton
+            label={"Twitter"}
+            href={"https://twitter.com/blocksurance_io"}
+          >
             <FaTwitter />
           </SocialButton>
-          <SocialButton label={"YouTube"} href={"https://youtube.com"}>
-            <FaYoutube />
+          <SocialButton
+            href={"https://snapshot.org/#/0xswinger.eth/about"}
+            label={"Snapshot"}
+          >
+            <Image borderRadius="full" boxSize="25px" src={snapshot} alt="" />
           </SocialButton>
-          <SocialButton label={"Instagram"} href={"https://instagram.com"}>
+          {/* <SocialButton label={"YouTube"} href={"https://youtube.com"}>
+            <FaYoutube />
+          </SocialButton> */}
+          <SocialButton
+            label={"Instagram"}
+            href={"https://www.instagram.com/blocksurancedao/"}
+          >
             <FaInstagram />
           </SocialButton>
         </Stack>
