@@ -18,8 +18,8 @@ export default function Registar(props: any) {
 
   const [refcode, setRefcode] = useState<string>("");
   const [pincode, setPincode] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const [valid, setValid] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [validPin, setValidPin] = useState<boolean>(false);
   const [registered, setRegistered] = useState<boolean>(true);
 
