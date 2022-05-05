@@ -8,6 +8,8 @@
 # testing
 /coverage
 /VARS
+/build-saved
+/build/**
 
 # production
 #/build
