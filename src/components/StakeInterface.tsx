@@ -363,6 +363,7 @@ export default function StakeInterface(props: any) {
                 network={props.network}
                 vendorContract={vendorContract}
                 updateBalance={updateBalance}
+                updateNavBalance={props.updateNavBalance}
               />
             </Button>
             <Button
@@ -498,6 +499,7 @@ export default function StakeInterface(props: any) {
               network={props.network}
               vendorContract={vendorContract}
               updateBalance={updateBalance}
+              updateNavBalance={props.updateNavBalance}
             />
           </Button>
           <Button

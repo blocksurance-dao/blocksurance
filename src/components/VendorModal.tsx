@@ -1,7 +1,9 @@
 import {
+  Box,
   Button,
   Link,
   VStack,
+  HStack,
   StackDivider,
   Modal,
   ModalOverlay,
@@ -12,11 +14,16 @@ import {
   ModalCloseButton,
   Text,
   Input,
+  Image,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import { useState, useEffect, useRef } from "react";
 import { useColorMode } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { formatEther } from "@ethersproject/units";
+import ethereum from "../assets/images/ethereum.png";
+import logo from "../assets/images/blocksurance256.png";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 type VendorModalProps = {
@@ -26,7 +33,8 @@ type VendorModalProps = {
   account: any;
   network: any;
   vendorContract: any;
-  updateBalance: any;
+  updateBalance: Function;
+  updateNavBalance: Function;
 };
 
 const VendorModal = ({
@@ -37,6 +45,7 @@ const VendorModal = ({
   network,
   vendorContract,
   updateBalance,
+  updateNavBalance,
 }: VendorModalProps) => {
   const { colorMode } = useColorMode();
 
@@ -86,7 +95,7 @@ const VendorModal = ({
   async function buyTokens() {
     setLoading(true);
     if (amount) {
-      const value = ((1 / price) * amount).toFixed(10);
+      const value = (1 / price) * amount;
       const weiValue = web3.utils.toWei(value.toString(), "ether");
       // console.log(weiValue);
       let tx = await vendorContract.methods.buyTokens(API_KEY).send({
@@ -103,6 +112,7 @@ const VendorModal = ({
 
         setTLink(tx.transactionHash);
         updateBalance();
+        updateNavBalance();
       }
     }
     setLoading(false);
@@ -118,7 +128,7 @@ const VendorModal = ({
         borderRadius="3xl"
       >
         <ModalHeader px={4} fontSize="lg" fontWeight="medium">
-          Buy tokens
+          Get 4SURE tokens
         </ModalHeader>
         <ModalCloseButton
           fontSize="sm"
@@ -140,31 +150,67 @@ const VendorModal = ({
             p={5}
           >
             <Text fontSize="md" fontWeight="medium">
-              Minimum buy: {formatEther(minimum)} tokens
+              Minimum swap: {formatEther(minimum)} tokens
             </Text>
-            <Input
-              w={"100%"}
+            <InputGroup
               border="1px"
               borderStyle="solid"
               borderColor="blue.300"
               borderRadius="xl"
-              style={{ textAlign: "center" }}
-              placeholder={"Amount in tokens"}
-              value={amount}
-              maxW={"3xl"}
-              onChange={(e) => {
-                setAmount(e.target.value);
-              }}
-            />
-            {amount ? (
-              <Text fontSize="md" fontWeight="medium">
-                Price: {((1 / price) * amount).toFixed(7)} ETH
-              </Text>
-            ) : (
-              <Text fontSize="md" fontWeight="medium">
-                Price: {((1 / price) * 1).toFixed(7)} ETH
-              </Text>
-            )}
+            >
+              <InputLeftElement
+                pointerEvents="none"
+                ml="2px"
+                mt="-1px"
+                children={
+                  <Image borderRadius="full" boxSize="25px" src={logo} alt="" />
+                }
+              />
+              <StackDivider w={"50px"} borderRight="1px" color="blue.300" />
+              <Input
+                w={"100%"}
+                border="0px"
+                style={{ textAlign: "center" }}
+                placeholder={"Amount in tokens"}
+                value={amount}
+                maxW={"3xl"}
+                onChange={(e) => {
+                  setAmount(e.target.value);
+                }}
+              />
+            </InputGroup>
+
+            <Box
+              //bg={colorMode === "dark" ? "gray.800" : "gray.400"}
+              w="100%"
+              border="1px"
+              borderStyle="solid"
+              borderColor={colorMode === "dark" ? "gray.600" : "gray.400"}
+              borderRadius="xl"
+              m="2px"
+              height="40px"
+            >
+              <HStack divider={<StackDivider w={"100px"} />} pt={"6px"}>
+                <Box ml="9px">
+                  <Image
+                    borderRadius="full"
+                    boxSize="25px"
+                    src={ethereum}
+                    alt=""
+                  />
+                </Box>
+                {amount ? (
+                  <Text fontSize="md" fontWeight="medium">
+                    {((1 / price) * amount).toFixed(7)} ETH
+                  </Text>
+                ) : (
+                  <Text fontSize="md" fontWeight="medium">
+                    {((1 / price) * 1).toFixed(7)} ETH
+                  </Text>
+                )}
+              </HStack>
+            </Box>
+
             {/* {parseFloat(formatEther((1 / price) * 1)).toFixed(7)} */}
             <Button
               onClick={buyTokens}
@@ -178,7 +224,7 @@ const VendorModal = ({
               }}
               borderRadius="xl"
               m="2px"
-              height="38px"
+              height="40px"
               disabled={
                 amount.length < 1 ||
                 parseInt(amount) < parseInt(formatEther(minimum))
@@ -186,7 +232,7 @@ const VendorModal = ({
               isLoading={loading}
             >
               <Text fontSize="md" fontWeight="medium">
-                BUY
+                SWAP
               </Text>
             </Button>
           </VStack>
@@ -206,7 +252,7 @@ const VendorModal = ({
               fontSize="sm"
               display="flex"
               alignItems="center"
-              href={`https://${network}.etherscan.io/address/${tlink}`}
+              href={`https://etherscan.io/address/${tlink}`}
               isExternal
               color="gray.400"
               ml={6}

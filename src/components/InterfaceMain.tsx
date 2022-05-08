@@ -64,6 +64,7 @@ export default function InterfaceMain(props: any) {
                   web3={web3}
                   account={account}
                   network={network}
+                  updateNavBalance={props.updateBalance}
                 />
               </TabPanel>
               <TabPanel>
