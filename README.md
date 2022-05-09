@@ -6,11 +6,11 @@
 
 **Coin:** View BLOCKSURANCE (4SURE) ERC20 Token on [etherscan](https://etherscan.io/address/0x88888883D7434785e02AC8475B9c9E7b1d3Dd293).
 
-**DAO:** BLOCKSURANCE DAO is live on [Snapshot!](https://snapshot.org/#/0xswinger.eth/about).
+**DAO:** BLOCKSURANCE DAO is live on [Snapshot](https://snapshot.org/#/0xswinger.eth/about)!
 
-**Whitepaper:** Read our [whitepaper!](https://github.com/blocksurance-dao/blocksurance/blob/master/blocksurance-whitepaper.pdf).
+**Whitepaper:** Read our [whitepaper](https://github.com/blocksurance-dao/blocksurance/blob/master/blocksurance-whitepaper.pdf)!
 
-**Read the docs:** BLOCKSURANCE uses [Gitbook]!(https://app.gitbook.com/s/ocbyKL4UiuV5pJEQXQqN/).
+**Read the docs:** BLOCKSURANCE uses [Gitbook](https://app.gitbook.com/s/ocbyKL4UiuV5pJEQXQqN/)!
 
 **Note:** BLOCKSURANCE uses [Web3](https://github.com/ethereum/web3.js#readme).
 
