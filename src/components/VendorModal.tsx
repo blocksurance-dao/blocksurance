@@ -59,7 +59,7 @@ const VendorModal = ({
 
   useEffect(() => {
     isMounted.current = true;
-
+    setLoading(false);
     vendorContract.methods
       .tokensPerEth()
       .call()
