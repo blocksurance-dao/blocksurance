@@ -10,6 +10,8 @@
 
 **Whitepaper:** Read our [whitepaper!](https://github.com/blocksurance-dao/blocksurance/blob/master/blocksurance-whitepaper.pdf).
 
+**Read the docs:** BLOCKSURANCE uses [Gitbook]!(https://app.gitbook.com/s/ocbyKL4UiuV5pJEQXQqN/).
+
 **Note:** BLOCKSURANCE uses [Web3](https://github.com/ethereum/web3.js#readme).
 
 This repo contains the BLOCKSURANCE dApp that is built with [React](https://reactjs.org/), and [Web3](https://github.com/ethereum/web3.js#readme): **[Website Link](https://blocksurance.io/)**.
