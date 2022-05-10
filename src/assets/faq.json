@@ -12,6 +12,14 @@
     "description": "BLOCKSURANCE supports more than 100 tokens./ Login to the app to see the full list."
   },
   {
+    "title": "Why does the registration cost money?",
+    "description": "Our dApp is 100 % on-chain. When you register, data is recorded to the ethereum blockchain. Ethereum gas fees apply here."
+  },
+  {
+    "title": "How much does it cost to register?",
+    "description": "Depending on what the ethereum gas fees are at the time, around $20 on average."
+  },
+  {
     "title": "Who owns individual Vault contracts?",
     "description": "The creator of each Vault is designated as the owner and has full control of the contract."
   },
