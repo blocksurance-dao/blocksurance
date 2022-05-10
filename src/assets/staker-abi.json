@@ -13,6 +13,12 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "time",
+        "type": "uint256"
       }
     ],
     "name": "StakeBurned",
@@ -47,6 +53,25 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "_addr",
         "type": "address"
       }
@@ -65,6 +90,19 @@
       }
     ],
     "name": "checkSupply",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "currentStaked",
     "outputs": [
       {
         "internalType": "uint256",
@@ -129,9 +167,9 @@
             "type": "uint256"
           },
           {
-            "internalType": "uint16",
+            "internalType": "uint64",
             "name": "duration",
-            "type": "uint16"
+            "type": "uint64"
           },
           {
             "internalType": "uint256",
@@ -157,9 +195,9 @@
     "name": "maxStakingPeriod",
     "outputs": [
       {
-        "internalType": "uint16",
+        "internalType": "uint64",
         "name": "",
-        "type": "uint16"
+        "type": "uint64"
       }
     ],
     "stateMutability": "view",
@@ -170,9 +208,9 @@
     "name": "minStakingPeriod",
     "outputs": [
       {
-        "internalType": "uint16",
+        "internalType": "uint64",
         "name": "",
-        "type": "uint16"
+        "type": "uint64"
       }
     ],
     "stateMutability": "view",
@@ -217,14 +255,45 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint16",
+        "internalType": "uint64",
         "name": "durationInDays",
-        "type": "uint16"
+        "type": "uint64"
       }
     ],
     "name": "stakeTokens",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "value",
+        "type": "bool"
+      },
+      {
+        "internalType": "address",
+        "name": "_apiKey",
+        "type": "address"
+      }
+    ],
+    "name": "stakingEnabled",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
