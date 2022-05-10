@@ -43,7 +43,6 @@ export default function StakeInterface(props: any) {
   const [allowance, setAllowance] = useState<any>(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // var stakerContract = new web3.eth.Contract(STAKER_ABI, STAKER_ADDRESS);
   var vendorContract = new web3.eth.Contract(VENDOR_ABI, VENDOR_ADDRESS);
   var isMounted = useRef(false);
 
@@ -147,30 +146,25 @@ export default function StakeInterface(props: any) {
 
   const CountButton = (props: any) => {
     const decrementdays = () => {
-      let newdays = days - 90;
-      if (newdays < 1) {
-        newdays = 1;
-      }
-      setDays(newdays);
-      updateAPR(newdays);
-    };
-
-    const incrementdays = () => {
-      let newdays = days + 90;
-      if (newdays === 91) {
+      let newdays = days - 30;
+      if (newdays < 90) {
         newdays = 90;
       }
       setDays(newdays);
       updateAPR(newdays);
     };
 
+    const incrementdays = () => {
+      let newdays = days + 30;
+      if (newdays > 450) {
+        newdays = 450;
+      }
+      setDays(newdays);
+      updateAPR(newdays);
+    };
+
     return (
-      <HStack
-        //divider={<StackDivider borderColor='gray.200' />}
-        spacing={4}
-        align="stretch"
-        alignItems="center"
-      >
+      <HStack spacing={4} align="stretch" alignItems="center">
         <Button
           style={{ lineHeight: 0.4 }}
           //disabled={isLoading ? 1 : 0}
@@ -228,14 +222,11 @@ export default function StakeInterface(props: any) {
 
   async function stakeTokens() {
     setLoading(true);
-    // var coinContract = new web3.eth.Contract(ERC20_ABI, COIN_ADDRESS);
+
     var stakerContract = new web3.eth.Contract(STAKER_ABI, STAKER_ADDRESS);
     try {
-      // var balance = await coinContract.methods.balanceOf(STAKER_ADDRESS).call();
-      // console.log(balance);
-
       var stake = await stakerContract.methods
-        .stakeTokens(API_KEY, web3.utils.toWei(amount, "ether"), parseInt(days))
+        .stakeTokens(API_KEY, web3.utils.toWei(amount, "ether"), Number(days))
         .send({
           from: account,
         });
@@ -244,9 +235,6 @@ export default function StakeInterface(props: any) {
       if (stake.transactionHash) {
         setApprove(true);
       }
-
-      // balance = await coinContract.methods.balanceOf(STAKER_ADDRESS).call();
-      // console.log(balance);
     } catch (error: any) {
       //console.log(error);
       let message = error?.message;
@@ -259,20 +247,13 @@ export default function StakeInterface(props: any) {
 
   async function burnStake() {
     setLoading(true);
-    // var coinContract = new web3.eth.Contract(ERC20_ABI, COIN_ADDRESS);
+
     var stakerContract = new web3.eth.Contract(STAKER_ABI, STAKER_ADDRESS);
 
     try {
-      // var balance = await coinContract.methods.balanceOf(account).call();
-      // console.log(balance);
-
       await stakerContract.methods.burnStake(account).send({
         from: account,
       });
-      // console.log(burn);
-
-      // balance = await coinContract.methods.balanceOf(account).call();
-      // console.log(balance);
     } catch (error: any) {
       //console.log(error);
       let message = error?.message;
@@ -282,17 +263,9 @@ export default function StakeInterface(props: any) {
     }
   }
 
-  // console.log(parseInt(amount) >= 300);
   if (stake < 1 && balance < 1) {
     return (
-      // <VStack w="100%" h="100%" spacing={"20px"} mt={"3px"}>
-      <VStack
-        w="100%"
-        alignItems={"center"}
-        verticalAlign={"center"}
-        // spacing={"25px"}
-        //divider={<StackDivider h={"50px"} />}
-      >
+      <VStack w="100%" alignItems={"center"} verticalAlign={"center"}>
         <Box
           bg={colorMode === "dark" ? "gray.700" : "gray.100"}
           w="100%"
@@ -323,7 +296,6 @@ export default function StakeInterface(props: any) {
               }}
               borderRadius="5px"
               m="1px"
-              // px={3}
               height="42px"
               onClick={() => {
                 setCopied(!copied);
@@ -344,7 +316,6 @@ export default function StakeInterface(props: any) {
                 href={`https://etherscan.io/address/${COIN_ADDRESS}`}
                 isExternal
                 color="gray.400"
-                //m={2}
                 _hover={{
                   color: "whiteAlpha.800",
                   textDecoration: "underline",
@@ -459,7 +430,6 @@ export default function StakeInterface(props: any) {
             }}
             borderRadius="5px"
             m="1px"
-            // px={3}
             height="42px"
             onClick={() => {
               setCopied(!copied);
@@ -480,7 +450,6 @@ export default function StakeInterface(props: any) {
               href={`https://etherscan.io/address/${COIN_ADDRESS}`}
               isExternal
               color="gray.400"
-              // m={1}
               _hover={{
                 color: "whiteAlpha.800",
                 textDecoration: "underline",
