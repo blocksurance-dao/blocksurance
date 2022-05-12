@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { formatEther } from "@ethersproject/units";
+import { formatUnits } from "@ethersproject/units";
 import {
   Box,
   VStack,
@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/icons";
 import Identicon from "./Identicon";
 
+const TOKENLIST = require("../assets/TokenList.json");
 const VAULT_ABI = require("../assets/vault-abi.json");
 const ERC20_ABI = require("../assets/erc20-abi.json");
 const STAKER_ABI = require("../assets/staker-abi.json");
@@ -39,6 +40,7 @@ export default function VaultInterface(props: any) {
   const [balance, setBalance] = useState<any>();
   const [userBal, setUserbal] = useState<any>();
   const [allowance, setAllowance] = useState<any>();
+  const [tokenObject, setTokenObject] = useState<any>({});
 
   var isMounted = useRef(false);
 
@@ -49,12 +51,26 @@ export default function VaultInterface(props: any) {
     );
     var stakerContract = new web3.eth.Contract(STAKER_ABI, STAKER_ADDRESS);
     isMounted.current = true;
+
+    let tokenObject: { decimals: number };
+    for (let item of TOKENLIST?.tokens) {
+      if (item.address === active?.tokenAddress) {
+        if (isMounted.current) {
+          tokenObject = item;
+          setTokenObject(item);
+        }
+        break;
+      }
+    }
+
     coinContract.methods
       .allowance(account, props.item?.vaultAddress)
       .call()
       .then((res: any) => {
         if (isMounted.current) {
-          setAllowance(parseFloat(formatEther(res)).toFixed(3));
+          setAllowance(
+            parseFloat(formatUnits(res, tokenObject.decimals)).toFixed(3)
+          );
         }
       })
       .catch((e: any) => {
@@ -66,7 +82,9 @@ export default function VaultInterface(props: any) {
       .call()
       .then((res: any) => {
         if (isMounted.current) {
-          setBalance(parseFloat(formatEther(res)).toFixed(2));
+          setBalance(
+            parseFloat(formatUnits(res, tokenObject.decimals)).toFixed(2)
+          );
           // console.log(balance);
         }
       })
@@ -79,7 +97,9 @@ export default function VaultInterface(props: any) {
       .call()
       .then((res: any) => {
         if (isMounted.current) {
-          setUserbal(parseFloat(formatEther(res)).toFixed(2));
+          setUserbal(
+            parseFloat(formatUnits(res, tokenObject.decimals)).toFixed(2)
+          );
           // console.log(balance);
         }
       })
@@ -115,14 +135,31 @@ export default function VaultInterface(props: any) {
       // executed when unmount
       isMounted.current = false;
     };
-  }, [loading, account, web3, props.item]);
+  }, [loading, account, web3, props.item, active]);
+
+  function strtodec(amount: string, dec: number) {
+    let stringf = "";
+    for (var i = 0; i < dec; i++) {
+      stringf = stringf + "0";
+    }
+    return amount + stringf;
+  }
 
   async function approveDeposit() {
     setLoading(true);
     var coinContract = new web3.eth.Contract(ERC20_ABI, active?.tokenAddress);
+    let tokenObject;
+    for (let item of TOKENLIST?.tokens) {
+      if (item.address === active?.tokenAddress) {
+        tokenObject = item;
+        break;
+      }
+    }
+
     try {
       var approved = await coinContract.methods
-        .approve(active?.vaultAddress, web3.utils.toWei(token, "ether"))
+        // .approve(active?.vaultAddress, web3.utils.toWei(token, "ether"))
+        .approve(active?.vaultAddress, strtodec(token, tokenObject.decimals))
         .send({
           from: account,
         });
@@ -142,26 +179,20 @@ export default function VaultInterface(props: any) {
   async function Deposit() {
     setLoading(true);
     var vaultContract = new web3.eth.Contract(VAULT_ABI, active?.vaultAddress);
-    // var coinContract = new web3.eth.Contract(ERC20_ABI, active?.tokenAddress);
+    let tokenObject;
+    for (let item of TOKENLIST?.tokens) {
+      if (item.address === active?.tokenAddress) {
+        tokenObject = item;
+        break;
+      }
+    }
     try {
-      // var balance = await coinContract.methods
-      //   .balanceOf(active?.vaultAddress)
-      //   .call();
-      // console.log(balance);
-
+      // web3.utils.toWei(token, "ether")
       await vaultContract.methods
-        .storeTokens(API_KEY, web3.utils.toWei(token, "ether"))
+        .storeTokens(API_KEY, strtodec(token, tokenObject.decimals))
         .send({
           from: account,
         });
-      // console.log(stored);
-
-      // if (stored?.transactionHash) {
-      //   balance = await coinContract.methods
-      //     .balanceOf(active?.vaultAddress)
-      //     .call();
-      //   console.log(balance);
-      // }
     } catch (error: any) {
       //console.log(error);
       let message = error?.message;
@@ -177,18 +208,18 @@ export default function VaultInterface(props: any) {
     var vaultContract = new web3.eth.Contract(VAULT_ABI, active?.vaultAddress);
     var coinContract = new web3.eth.Contract(ERC20_ABI, active?.tokenAddress);
     try {
-      var balance = await coinContract.methods
-        .balanceOf(active?.vaultAddress)
-        .call();
-      console.log(balance);
+      // var balance = await coinContract.methods
+      //   .balanceOf(active?.vaultAddress)
+      //   .call();
+      // console.log(balance);
 
       var stored = await vaultContract.methods.withdrawTokens(API_KEY).send({
         from: account,
       });
-      console.log(stored);
+      // console.log(stored);
 
       if (stored.transactionHash) {
-        balance = await coinContract.methods
+        var balance = await coinContract.methods
           .balanceOf(active?.vaultAddress)
           .call();
         console.log(balance);
