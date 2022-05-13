@@ -148,18 +148,10 @@ export default function VaultInterface(props: any) {
   async function approveDeposit() {
     setLoading(true);
     var coinContract = new web3.eth.Contract(ERC20_ABI, active?.tokenAddress);
-    let tokenObject;
-    for (let item of TOKENLIST?.tokens) {
-      if (item.address === active?.tokenAddress) {
-        tokenObject = item;
-        break;
-      }
-    }
 
     try {
       var approved = await coinContract.methods
-        // .approve(active?.vaultAddress, web3.utils.toWei(token, "ether"))
-        .approve(active?.vaultAddress, strtodec(token, tokenObject.decimals))
+        .approve(active?.vaultAddress, strtodec(token, tokenObject?.decimals))
         .send({
           from: account,
         });
@@ -179,17 +171,10 @@ export default function VaultInterface(props: any) {
   async function Deposit() {
     setLoading(true);
     var vaultContract = new web3.eth.Contract(VAULT_ABI, active?.vaultAddress);
-    let tokenObject;
-    for (let item of TOKENLIST?.tokens) {
-      if (item.address === active?.tokenAddress) {
-        tokenObject = item;
-        break;
-      }
-    }
+
     try {
-      // web3.utils.toWei(token, "ether")
       await vaultContract.methods
-        .storeTokens(API_KEY, strtodec(token, tokenObject.decimals))
+        .storeTokens(API_KEY, strtodec(token, tokenObject?.decimals))
         .send({
           from: account,
         });
@@ -208,11 +193,6 @@ export default function VaultInterface(props: any) {
     var vaultContract = new web3.eth.Contract(VAULT_ABI, active?.vaultAddress);
     var coinContract = new web3.eth.Contract(ERC20_ABI, active?.tokenAddress);
     try {
-      // var balance = await coinContract.methods
-      //   .balanceOf(active?.vaultAddress)
-      //   .call();
-      // console.log(balance);
-
       var stored = await vaultContract.methods.withdrawTokens(API_KEY).send({
         from: account,
       });
