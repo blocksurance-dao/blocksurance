@@ -41,10 +41,15 @@ It follows the [JAMstack architecture](https://jamstack.org) by using Git as a s
 Pulldown a local copy of the Github repository Netlify created for you, with the name you specified in the previous step
 
 ```
-$ git clone https://github.com/[blocksurance-dao]/[blocksurance].git
-$ cd [blocksurance]
+$ git clone https://github.com/blocksurance-dao/blocksurance.git
+$ cd blocksurance
 $ yarn
-$ netlify dev # or ntl dev
+$ yarn start
+
+or
+
+$ npm install
+$ npm start
 ```
 
 This uses [Netlify Dev](https://www.netlify.com/products/dev/?utm_source=blog&utm_medium=netlifycms&utm_campaign=devex) CLI feature to serve any functions you have in the `netlify/functions` folder.
