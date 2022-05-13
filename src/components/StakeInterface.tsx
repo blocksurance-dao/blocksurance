@@ -117,22 +117,22 @@ export default function StakeInterface(props: any) {
       // executed when unmount
       isMounted.current = false;
     };
-  }, [loading, account, web3]);
+  }, [loading, account, web3, isOpen]);
 
-  function updateBalance() {
-    var coinContract = new web3.eth.Contract(ERC20_ABI, COIN_ADDRESS);
-    coinContract.methods
-      .balanceOf(account)
-      .call()
-      .then((res: any) => {
-        if (isMounted.current) {
-          setBalance(parseFloat(formatEther(res)).toFixed(2));
-        }
-      })
-      .catch((e: any) => {
-        console.log(e);
-      });
-  }
+  // function updateBalance() {
+  //   var coinContract = new web3.eth.Contract(ERC20_ABI, COIN_ADDRESS);
+  //   coinContract.methods
+  //     .balanceOf(account)
+  //     .call()
+  //     .then((res: any) => {
+  //       if (isMounted.current) {
+  //         setBalance(parseFloat(formatEther(res)).toFixed(2));
+  //       }
+  //     })
+  //     .catch((e: any) => {
+  //       console.log(e);
+  //     });
+  // }
 
   function updateAPR(newdays: number) {
     if (newdays > 360) {
@@ -226,7 +226,7 @@ export default function StakeInterface(props: any) {
     var stakerContract = new web3.eth.Contract(STAKER_ABI, STAKER_ADDRESS);
     try {
       var stake = await stakerContract.methods
-        .stakeTokens(API_KEY, web3.utils.toWei(amount, "ether"), Number(days))
+        .stakeTokens(API_KEY, web3.utils.toWei(amount, "ether"), parseInt(days))
         .send({
           from: account,
         });
@@ -331,10 +331,7 @@ export default function StakeInterface(props: any) {
                 onClose={onClose}
                 web3={web3}
                 account={account}
-                network={props.network}
                 vendorContract={vendorContract}
-                updateBalance={updateBalance}
-                updateNavBalance={props.updateNavBalance}
               />
             </Button>
             <Button
@@ -465,10 +462,7 @@ export default function StakeInterface(props: any) {
               onClose={onClose}
               web3={web3}
               account={account}
-              network={props.network}
               vendorContract={vendorContract}
-              updateBalance={updateBalance}
-              updateNavBalance={props.updateNavBalance}
             />
           </Button>
           <Button
