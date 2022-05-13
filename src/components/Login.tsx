@@ -7,6 +7,8 @@ import {
   Input,
   Image,
 } from "@chakra-ui/react";
+import BeatLoader from "react-spinners/BeatLoader";
+
 import logo from "../assets/images/BlocksuranceWeb1.png";
 const REGISTAR_ABI = require("../assets/registar-abi.json");
 const REGISTAR_ADDRESS = process.env.REACT_APP_REGISTAR_ADDRESS;
@@ -31,6 +33,7 @@ export default function Registar(props: any) {
     async function isValidAddress() {
       return (await web3.utils.isAddress(refcode)) === true;
     }
+    setLoading(false);
     isMounted.current = true;
     isValidAddress()
       .then((res: any) => {
@@ -67,7 +70,7 @@ export default function Registar(props: any) {
     };
   }, [account, web3]);
 
-  async function register() {
+  function register() {
     setLoading(true);
 
     registarContract.methods
@@ -81,9 +84,10 @@ export default function Registar(props: any) {
       })
       .catch((e: any) => {
         console.log(e);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-    setLoading(false);
   }
 
   useEffect(() => {
@@ -191,7 +195,7 @@ export default function Registar(props: any) {
           borderStyle="solid"
           borderColor="gray.400"
           isLoading={loading}
-          loadingText="Loading..."
+          spinner={<BeatLoader size={8} color="white" />}
           onClick={validatePin}
           disabled={!validPin}
         >
@@ -205,7 +209,7 @@ export default function Registar(props: any) {
           borderStyle="solid"
           borderColor="gray.400"
           isLoading={loading}
-          loadingText="Loading..."
+          spinner={<BeatLoader size={8} color="white" />}
           onClick={register}
           disabled={!valid || !validPin}
         >
