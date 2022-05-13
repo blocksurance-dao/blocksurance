@@ -31,10 +31,7 @@ type VendorModalProps = {
   onClose: any;
   web3: any;
   account: any;
-  network: any;
   vendorContract: any;
-  updateBalance: Function;
-  updateNavBalance: Function;
 };
 
 const VendorModal = ({
@@ -42,10 +39,7 @@ const VendorModal = ({
   onClose,
   web3,
   account,
-  network,
   vendorContract,
-  updateBalance,
-  updateNavBalance,
 }: VendorModalProps) => {
   const { colorMode } = useColorMode();
 
@@ -109,10 +103,7 @@ const VendorModal = ({
       if (tx?.transactionHash) {
         console.log("Transaction:", tx.transactionHash);
         // console.log(network);
-
         setTLink(tx.transactionHash);
-        updateBalance();
-        updateNavBalance();
       }
     }
     setLoading(false);
@@ -210,8 +201,6 @@ const VendorModal = ({
                 )}
               </HStack>
             </Box>
-
-            {/* {parseFloat(formatEther((1 / price) * 1)).toFixed(7)} */}
             <Button
               onClick={buyTokens}
               bg={colorMode === "dark" ? "gray.800" : "gray.400"}
