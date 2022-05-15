@@ -10,7 +10,7 @@
 
 **Whitepaper:** Read our [whitepaper](https://github.com/blocksurance-dao/blocksurance/blob/master/blocksurance-whitepaper.pdf)!
 
-**Read the docs:** BLOCKSURANCE uses [Gitbook](https://app.gitbook.com/s/ocbyKL4UiuV5pJEQXQqN/)!
+**Read the docs:** BLOCKSURANCE uses [Gitbook](https://blocksurance.gitbook.io/blocksurance/)!
 
 **Note:** BLOCKSURANCE uses [Web3](https://github.com/ethereum/web3.js#readme).
 
