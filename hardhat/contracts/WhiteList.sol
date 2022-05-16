@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+// import "hardhat/console.sol";
+
 contract WhiteList {
-	bytes32 private apiKey;
 	address payable private owner;
 	mapping(address => bool) public whiteList;
 
-	constructor(address _apiKey) {
-		apiKey = keccak256(abi.encodePacked(_apiKey));
+	constructor() {
 		owner = payable(msg.sender);
 	}
 
@@ -62,16 +62,7 @@ contract WhiteList {
 	/** @dev Function to get all whitelisted tokens.
 	 * @return Array of token objects
 	 */
-	function getListings(address _apiKey)
-		external
-		view
-		returns (Token[] memory)
-	{
-		require(
-			apiKey == keccak256(abi.encodePacked(_apiKey)),
-			"Access denied!"
-		);
-
+	function getListings() external view returns (Token[] memory) {
 		return tokenList;
 	}
 }

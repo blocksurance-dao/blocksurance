@@ -8,7 +8,6 @@ use(solidity);
 describe("🚩 Testing: 🥩 Coin Factory", function () {
   this.timeout(45000);
 
-  let apiKey: any;
   let msgSender: any;
   let vendorContract: any;
   let coinContract: any;
@@ -16,14 +15,13 @@ describe("🚩 Testing: 🥩 Coin Factory", function () {
   const tokensPerEth = 70000;
 
   it("Should set env vars", async function () {
-    const [owner, secondAccount] = await ethers.getSigners();
+    const [owner] = await ethers.getSigners();
     msgSender = owner.address;
-    apiKey = secondAccount.address;
   });
 
   it("Should deploy Registar", async function () {
     const registar = await ethers.getContractFactory("Registar");
-    registarContract = await registar.deploy(apiKey, 45454);
+    registarContract = await registar.deploy();
     console.log("Registar contract: ", registarContract.address);
   });
 
@@ -40,7 +38,6 @@ describe("🚩 Testing: 🥩 Coin Factory", function () {
     const vendor = await ethers.getContractFactory("Vendor");
     vendorContract = await vendor.deploy(
       coinContract.address,
-      apiKey,
       registarContract.address
     );
   });
@@ -91,7 +88,7 @@ describe("🚩 Testing: 🥩 Coin Factory", function () {
       console.log("\t", " ⚖️ Starting balance: ", startingBalance.toNumber());
 
       console.log("\t", " 🔨 Buying...");
-      const buyResult = await vendorContract.buyTokens(apiKey, {
+      const buyResult = await vendorContract.buyTokens({
         value: ethers.utils.parseEther("80"),
       });
       console.log("\t", " 🏷  buyResult: ", buyResult.hash);
@@ -112,20 +109,17 @@ describe("🚩 Testing: 🥩 Coin Factory", function () {
     });
 
     it("Owner should be able to withdraw balance from Vendor", async function () {
-      const contractBalance = await vendorContract.balance(apiKey);
+      const contractBalance = await vendorContract.balance();
       console.log(
         "Owner balance before withdraw: ",
         parseInt(ethers.utils.formatEther(contractBalance))
       );
 
       console.log("\t", " 💵 calling withdraw");
-      const withdrawResult = await vendorContract.withdraw(
-        contractBalance,
-        apiKey
-      );
+      const withdrawResult = await vendorContract.withdraw(contractBalance);
       console.log("\t", " 🏷  withdrawResult: ", withdrawResult.hash);
 
-      const endingBalance = await vendorContract.balance(apiKey);
+      const endingBalance = await vendorContract.balance();
       console.log(
         "Owner balance after withdraw: ",
         parseInt(ethers.utils.formatEther(endingBalance))

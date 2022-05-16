@@ -11,30 +11,21 @@ interface IRegistar {
 		uint256 time;
 	}
 
-	function get(address _addr, address _apiKey) external view returns (bool);
+	function get(address _addr) external view returns (bool);
 
-	function register(address _addr, address _apiKey) external;
+	function register(address _addr) external;
 
-	function getRef(address _addr, bytes32 _apiKey)
-		external
-		view
-		returns (address);
+	function getRef(address _addr) external view returns (address);
 
-	function setRef(address _addr, address _apiKey) external;
+	function setRef(address _addr) external;
 
-	function validatePin(uint24 pinCode, address _apiKey)
-		external
-		view
-		returns (bool);
+	function validatePin(uint24 pinCode) external view returns (bool);
 
-	function getUser(address _addr, address _apiKey)
-		external
-		view
-		returns (User memory);
+	function getUser(address _addr) external view returns (User memory);
 
 	function getUsers(address _apiKey) external view returns (User[] memory);
 
-	function getRefferals(address _addr, address _apiKey)
+	function getRefferals(address _addr)
 		external
 		view
 		returns (address[] memory);

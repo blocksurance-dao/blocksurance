@@ -8,7 +8,6 @@ use(solidity);
 describe("🚩 Testing: 🥩 Vault Factory", async function () {
   this.timeout(45000);
 
-  let apiKey: any;
   let msgSender: any;
   let whitelistContract: any;
   let factoryContract: any;
@@ -21,11 +20,10 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
   it("Should set env vars", async function () {
     const [owner, acc1] = await ethers.getSigners();
     msgSender = owner.address;
-    apiKey = acc1.address;
   });
   it("Should deploy Registar", async function () {
     const registar = await ethers.getContractFactory("Registar");
-    registarContract = await registar.deploy(apiKey, 45454);
+    registarContract = await registar.deploy();
     console.log("Registar contract: ", registarContract.address);
   });
 
@@ -44,7 +42,6 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     const staker = await ethers.getContractFactory("StakerRewards");
     stakerContract = await staker.deploy(
       coinContract.address,
-      apiKey,
       registarContract.address
     );
     console.log("Staker contract: ", stakerContract.address);
@@ -53,7 +50,6 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     const vendor = await ethers.getContractFactory("Vendor");
     vendorContract = await vendor.deploy(
       coinContract.address,
-      apiKey,
       registarContract.address
     );
     console.log("Vendor contract: ", vendorContract.address);
@@ -63,20 +59,19 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     expect(await vendorContract.getMinBuy()).to.equal(
       ethers.utils.parseEther("5000000") // 5M
     );
-    await vendorContract.setMinBuy(ethers.utils.parseEther("20000"), apiKey);
+    await vendorContract.setMinBuy(ethers.utils.parseEther("20000"));
     expect(await vendorContract.getMinBuy()).to.equal(
       ethers.utils.parseEther("20000") // 4M
     );
   });
   it("Should deploy Whitelist", async function () {
     const whiteList = await ethers.getContractFactory("WhiteList");
-    whitelistContract = await whiteList.deploy(apiKey);
+    whitelistContract = await whiteList.deploy();
     console.log("Whitelist contract: ", whitelistContract.address);
   });
   it("Should deploy VaultFactory", async function () {
     const Factory = await ethers.getContractFactory("VaultFactory");
     factoryContract = await Factory.deploy(
-      apiKey,
       registarContract.address,
       whitelistContract.address
     );
@@ -90,8 +85,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       factoryContract.address,
       msgSender,
       "Name 1",
-      acc1.address, // refAddress
-      ethers.utils.keccak256(apiKey)
+      acc1.address // refAddress
     );
   });
 
@@ -202,7 +196,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       console.log("\t", " 🔨 Starting new vault...");
       const startResult = await factoryContract.createVault(
         coinContract.address,
-        apiKey,
+
         "Vault 1",
         { value: ethers.utils.parseEther("0.005") }
       );
@@ -221,7 +215,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     });
     it("Should be able to retrieve user vaults", async function () {
       console.log("\t", " 🔨 Retrieving vaults...");
-      const vaults = await factoryContract.getUserVaults(msgSender, apiKey);
+      const vaults = await factoryContract.getUserVaults(msgSender);
 
       console.log("\t", " ⏳ Waiting for confirmation...");
       console.log("\t", "Retrieved vault: ", vaults[0].vaultName);
@@ -250,7 +244,6 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       const refBalance1 = await coinContract.balanceOf(acc1.address);
 
       const storeResult = await vaultContract.storeTokens(
-        apiKey,
         ethers.utils.parseEther("2")
       );
 
@@ -271,17 +264,12 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       );
       console.log("\t", " ⏳ Vault balance increased accordingly...");
     });
-    it("Withdrawal with incorrect pin should fail", async function () {
-      console.log("\t", " 🔨 Withdrawing tokens with wrong pin...");
-      await expect(vaultContract.withdrawTokens(msgSender)).to.be.revertedWith(
-        "Access denied!"
-      );
-    });
+
     it("You should be able to withdraw tokens from vault", async function () {
       console.log("\t", " 🔨 Withdraw tokens from vault...");
       const oneBalance = await coinContract.balanceOf(vaultContract.address);
 
-      const storeResult = await vaultContract.withdrawTokens(apiKey);
+      const storeResult = await vaultContract.withdrawTokens();
       console.log("\t", " 🏷  withdrawResult: ", storeResult.hash);
 
       console.log("\t", " ⏳ Waiting for confirmation...");
@@ -313,8 +301,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       const startResult = await factoryContract.transferTokens(
         coinContract.address,
         msgSender,
-        oneBalance,
-        apiKey
+        oneBalance
       );
       console.log("\t", " 🏷  startResult: ", startResult.hash);
 
@@ -328,8 +315,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     it("You should be able to withdraw from VaultFactory", async function () {
       console.log("\t", " 🔨 Withdraw balance ...");
       const wResult = await factoryContract.withdraw(
-        ethers.utils.parseEther("0.005"),
-        apiKey
+        ethers.utils.parseEther("0.005")
       );
       console.log("\t", " 🏷  Result: ", wResult.hash);
 
@@ -345,7 +331,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       console.log("\t", " 🔨 Starting new vault...");
       const startResult = await factoryContract.createVault(
         coinContract.address,
-        apiKey,
+
         "Vault 2",
         { value: ethers.utils.parseEther("0.005") }
       );
@@ -360,7 +346,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       console.log("\t", " 🔨 Starting new vault...");
       const startResult = await factoryContract.createVault(
         coinContract.address,
-        apiKey,
+
         "Vault 3",
         { value: ethers.utils.parseEther("0.005") }
       );
@@ -388,13 +374,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
         value: ethers.utils.parseEther("1.0"), // Sends exactly 1.0 ether
       });
       console.log("\t", transactionHash3.hash);
-    });
-    it("getVaults should fail when wrong apiKey used", async () => {
-      await expect(
-        factoryContract.getUserVaults(msgSender, msgSender)
-      ).to.be.revertedWith("Access denied!");
-
-      // await hre.network.provider.send("hardhat_reset");
+      await hre.network.provider.send("hardhat_reset");
     });
   });
 });

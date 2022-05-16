@@ -1,11 +1,10 @@
-// SPDX-License-Identifier: GPL-v3.0
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
 import "./IRegistar.sol";
 import "./IERC20.sol";
 
 contract StakerRewards {
-	bytes32 private apiKey;
 	string private _name = "BLOCKSURANCE";
 	string private _symbol = "4SURE";
 	address payable private owner;
@@ -16,19 +15,14 @@ contract StakerRewards {
 	uint256 public totalStaked;
 	uint256 public currentStaked;
 	bool private paused = false;
-	uint64 public minStakingPeriod = 90; // days
-	uint64 public maxStakingPeriod = 450; // days
-	uint256 private minimalStake = 20_000 ether; // tokens
+	uint64 public minStakingPeriod = 90; //days
+	uint64 public maxStakingPeriod = 450; //days
+	uint256 private minimalStake = 20_000 ether; //~$1000 worth
 
-	constructor(
-		address tokenAddress,
-		address _apiKey,
-		address _registar
-	) {
+	constructor(address tokenAddress, address _registar) {
 		registar = _registar;
 		owner = payable(msg.sender);
 		serviceContract = tokenAddress;
-		apiKey = keccak256(abi.encodePacked(_apiKey));
 	}
 
 	struct Stake {
@@ -76,17 +70,9 @@ contract StakerRewards {
 		_;
 	}
 
-	modifier validKey(address _apiKey) {
-		require(
-			apiKey == keccak256(abi.encodePacked(_apiKey)),
-			"Access denied!"
-		);
-		_;
-	}
-
-	modifier Registered(address _apiKey) {
+	modifier Registered() {
 		IRegistar registarContract = IRegistar(registar);
-		bool registered = registarContract.get(msg.sender, _apiKey);
+		bool registered = registarContract.get(msg.sender);
 		require(registered == true, "Unregistered user!");
 		_;
 	}
@@ -123,11 +109,7 @@ contract StakerRewards {
 		return minimalStake;
 	}
 
-	function setMaxStakingPeriod(uint64 _days, address _apiKey)
-		external
-		onlyOwner
-		validKey(_apiKey)
-	{
+	function setMaxStakingPeriod(uint64 _days) external onlyOwner {
 		maxStakingPeriod = _days;
 	}
 
@@ -141,29 +123,19 @@ contract StakerRewards {
 		}
 	}
 
-	function stakingEnabled(bool value, address _apiKey)
-		public
-		onlyOwner
-		validKey(_apiKey)
-	{
+	function stakingEnabled(bool value) public onlyOwner {
 		paused = !value;
 	}
 
-	function getUserStake(address _address, address _apiKey)
-		public
-		view
-		validKey(_apiKey)
-		returns (Stake memory)
-	{
+	function getUserStake(address _address) public view returns (Stake memory) {
 		return stakes[_address];
 	}
 
 	function setRates(
 		uint8 low,
 		uint8 mid,
-		uint8 high,
-		address _apiKey
-	) public onlyOwner validKey(_apiKey) {
+		uint8 high
+	) public onlyOwner {
 		_rates = [low, mid, high];
 	}
 
@@ -171,12 +143,7 @@ contract StakerRewards {
 		return _rates;
 	}
 
-	function checkSupply(address _apiKey)
-		public
-		view
-		validKey(_apiKey)
-		returns (uint256)
-	{
+	function checkSupply() public view returns (uint256) {
 		IERC20 tokenContract = IERC20(serviceContract);
 		return tokenContract.balanceOf(address(this));
 	}
@@ -184,7 +151,7 @@ contract StakerRewards {
 	function _refferal(uint256 amount) internal returns (bool) {
 		IERC20 tokenContract = IERC20(serviceContract);
 		IRegistar registarContract = IRegistar(registar);
-		address refAddress = registarContract.getRef(msg.sender, apiKey);
+		address refAddress = registarContract.getRef(msg.sender);
 		uint256 rewardAmount = amount / 25; //4%
 
 		if (refAddress != address(0x0)) {
@@ -201,15 +168,10 @@ contract StakerRewards {
 		return true;
 	}
 
-	function stakeTokens(
-		address _apiKey,
-		uint256 tokenAmount,
-		uint64 durationInDays
-	)
+	function stakeTokens(uint256 tokenAmount, uint64 durationInDays)
 		external
 		stakingPaused
-		validKey(_apiKey)
-		Registered(_apiKey)
+		Registered
 		isStakeable(durationInDays)
 	{
 		IERC20 tokenContract = IERC20(serviceContract);
@@ -283,9 +245,8 @@ contract StakerRewards {
 
 	function transferTokens(
 		address _to,
-		uint256 amount, //of tokens
-		address _apiKey
-	) public onlyOwner validKey(_apiKey) {
+		uint256 amount //of tokens
+	) public onlyOwner {
 		IERC20 tokenContract = IERC20(serviceContract);
 		uint256 tokenAmount = tokenContract.balanceOf(address(this));
 		require(tokenAmount >= amount, "Not enough tokens!");
@@ -294,9 +255,8 @@ contract StakerRewards {
 
 	function airdrop(
 		address[] calldata _addresses,
-		uint256 amount, //of tokens
-		address _apiKey
-	) public onlyOwner validKey(_apiKey) {
+		uint256 amount //of tokens
+	) public onlyOwner {
 		IERC20 tokenContract = IERC20(serviceContract);
 		uint256 supply = tokenContract.balanceOf(address(this));
 		uint256 _amountSum = amount * _addresses.length;
@@ -313,12 +273,7 @@ contract StakerRewards {
 	/** @dev Function to get all active stakes.
 	 * @return Array of Stake objects
 	 */
-	function getActiveStakes(address _apiKey)
-		external
-		view
-		validKey(_apiKey)
-		returns (Stake[] memory)
-	{
+	function getActiveStakes() external view returns (Stake[] memory) {
 		return activeStakes;
 	}
 }

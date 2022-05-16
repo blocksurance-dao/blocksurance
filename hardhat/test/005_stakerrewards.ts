@@ -8,7 +8,6 @@ use(solidity);
 describe("🚩 Testing: 🥩  StakerRewards!", function () {
   this.timeout(45000);
 
-  let apiKey: any;
   let msgSender: any;
   let coinContract: any;
   let vendorContract: any;
@@ -19,7 +18,6 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
   it("Should set env vars", async function () {
     const [owner, acc1] = await ethers.getSigners();
     msgSender = owner.address;
-    apiKey = acc1.address;
   });
   it("Should deploy Registar", async function () {
     await hre.network.provider.send("hardhat_reset");
@@ -27,7 +25,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
     msgSender = owner.address;
 
     const registar = await ethers.getContractFactory("Registar");
-    registarContract = await registar.deploy(apiKey, 45454);
+    registarContract = await registar.deploy();
     console.log("Registar contract: ", registarContract.address);
   });
 
@@ -44,7 +42,6 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
     const vendor = await ethers.getContractFactory("Vendor");
     vendorContract = await vendor.deploy(
       coinContract.address,
-      apiKey,
       registarContract.address
     );
   });
@@ -52,7 +49,6 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
     const staker = await ethers.getContractFactory("StakerRewards");
     stakerContract = await staker.deploy(
       coinContract.address,
-      apiKey,
       registarContract.address
     );
   });
@@ -72,7 +68,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       expect(twoBalance).to.equal(
         oneBalance.add(ethers.utils.parseEther("250000000")) // 250M
       );
-      const supply = await vendorContract.checkSupply(apiKey);
+      const supply = await vendorContract.checkSupply();
       expect(ethers.utils.formatEther(supply)).to.equal(
         ethers.utils.formatEther(twoBalance)
       );
@@ -119,35 +115,29 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
     });
     it("Should be able to set MaxStakingPeriod variable", async () => {
       expect(await stakerContract.maxStakingPeriod()).to.equal(450);
-      await stakerContract.setMaxStakingPeriod(390, apiKey);
+      await stakerContract.setMaxStakingPeriod(390);
       expect(await stakerContract.maxStakingPeriod()).to.equal(390);
-      await stakerContract.setMaxStakingPeriod(450, apiKey);
+      await stakerContract.setMaxStakingPeriod(450);
       expect(await stakerContract.maxStakingPeriod()).to.equal(450);
     });
     it("Should be able to set minimalBuy variable", async () => {
       expect(await vendorContract.getMinBuy()).to.equal(
         ethers.utils.parseEther("5000000") // 5M
       );
-      await vendorContract.setMinBuy(
-        ethers.utils.parseEther("4000000"),
-        apiKey
-      );
+      await vendorContract.setMinBuy(ethers.utils.parseEther("4000000"));
       expect(await vendorContract.getMinBuy()).to.equal(
         ethers.utils.parseEther("4000000") // 4M
       );
-      await vendorContract.setMinBuy(
-        ethers.utils.parseEther("5000000"),
-        apiKey
-      );
+      await vendorContract.setMinBuy(ethers.utils.parseEther("5000000"));
       expect(await vendorContract.getMinBuy()).to.equal(
         ethers.utils.parseEther("5000000") // 5M
       );
     });
     it("Should be able to set rates variable", async () => {
       expect((await stakerContract.getRates())[0]).to.equal(21);
-      await stakerContract.setRates(22, 34, 55, apiKey);
+      await stakerContract.setRates(22, 34, 55);
       expect((await stakerContract.getRates())[2]).to.equal(55);
-      await stakerContract.setRates(21, 33, 45, apiKey);
+      await stakerContract.setRates(21, 33, 45);
       expect((await stakerContract.getRates())[0]).to.equal(21);
     });
     it("Staker should be able to airdrop tokens()", async function () {
@@ -174,8 +164,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       const startingBalance = await coinContract.balanceOf(acc1.address);
       const airResult = await stakerContract.airdrop(
         [acc1.address, owner.address],
-        ethers.utils.parseEther("1000"),
-        apiKey
+        ethers.utils.parseEther("1000")
       );
       console.log(
         "\t",
@@ -206,7 +195,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       );
 
       console.log("\t", " 🔨 Buying...");
-      const buyResult = await vendorContract.buyTokens(apiKey, {
+      const buyResult = await vendorContract.buyTokens({
         value: ethers.utils.parseEther("80"),
       });
       console.log("\t", " 🏷  buyResult: ", buyResult.hash);
@@ -246,24 +235,22 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       );
 
       console.log("\t", " 🔨 Pause Staking...");
-      await stakerContract.stakingEnabled(false, apiKey);
+      await stakerContract.stakingEnabled(false);
 
       await expect(
-        stakerContract.stakeTokens(apiKey, ethers.utils.parseEther("20000"), 90)
+        stakerContract.stakeTokens(ethers.utils.parseEther("20000"), 90)
       ).to.be.revertedWith("Staking is temporarily halted!");
 
       console.log("\t", " 🔨 UnPause Staking...");
-      await stakerContract.stakingEnabled(true, apiKey);
+      await stakerContract.stakingEnabled(true);
     });
     it("Stake should go up when you stake()", async function () {
       console.log("\t", " 🧑‍🏫 Tester Address: ", msgSender);
       const [owner, acc1] = await ethers.getSigners();
 
-      const rgResult = await registarContract.connect(acc1).register(
-        owner.address,
-        apiKey,
-        99999 // pinCode
-      );
+      const rgResult = await registarContract
+        .connect(acc1)
+        .register(owner.address);
       console.log(
         "\t",
         " ⏳ Waiting for confirmation from register function..."
@@ -276,10 +263,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
         .connect(acc1)
         .approve(stakerContract.address, ethers.utils.parseEther("20000"));
 
-      const startingStake = await stakerContract.getUserStake(
-        acc1.address,
-        apiKey
-      );
+      const startingStake = await stakerContract.getUserStake(acc1.address);
       console.log(
         "\t",
         " ⚖️ Starting stake: ",
@@ -291,17 +275,14 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       console.log("\t", " 🔨 Staking...");
       const stakeResult = await stakerContract
         .connect(acc1)
-        .stakeTokens(apiKey, ethers.utils.parseEther("20000"), 90);
+        .stakeTokens(ethers.utils.parseEther("20000"), 90);
       console.log("\t", " 🏷  stakeResult: ", stakeResult.hash);
 
       console.log("\t", " ⏳ Waiting for confirmation...");
       const txResult = await stakeResult.wait();
       expect(txResult.status).to.equal(1);
 
-      const endingStake = await stakerContract.getUserStake(
-        acc1.address,
-        apiKey
-      );
+      const endingStake = await stakerContract.getUserStake(acc1.address);
       console.log(
         "\t",
         " ⚖️ Ending stake: ",
@@ -318,17 +299,9 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       );
     });
 
-    it("Should fail to retrieve token listing from contract", async function () {
-      await expect(
-        stakerContract.getActiveStakes(
-          msgSender // wrong apiKey
-        )
-      ).to.be.revertedWith("Access denied!");
-    });
-
     it("Should retrieve token listing from contract", async function () {
       console.log("\t", " ⏳ Retrieving token listings...");
-      const txResult = await stakerContract.getActiveStakes(apiKey);
+      const txResult = await stakerContract.getActiveStakes();
       console.log(
         "\t",
         " ⏳ Waiting for confirmation from getListings function..."
@@ -343,13 +316,11 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       const vendor = await ethers.getContractFactory("Vendor");
       vendorContract = await vendor.deploy(
         coinContract.address,
-        apiKey,
         registarContract.address
       );
       const staker = await ethers.getContractFactory("StakerRewards");
       stakerContract = await staker.deploy(
         coinContract.address,
-        apiKey,
         registarContract.address
       );
 
@@ -368,7 +339,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       console.log("\t", " 🔨 Toast!");
 
       console.log("\t", " 🔨 Buying...");
-      const buyResult = await vendorContract.buyTokens(apiKey, {
+      const buyResult = await vendorContract.buyTokens({
         value: ethers.utils.parseEther("80"),
       });
       console.log("\t", " 🏷  buyResult: ", buyResult.hash);
@@ -388,7 +359,6 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
 
       console.log("\t", " ⏳ Staking...");
       const stakeResult = await stakerContract.stakeTokens(
-        apiKey,
         ethers.utils.parseEther("20000"),
         270
       );
@@ -398,10 +368,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       const txResult5 = await stakeResult.wait();
       expect(txResult5.status).to.equal(1);
 
-      const startingStake = await stakerContract.getUserStake(
-        msgSender,
-        apiKey
-      );
+      const startingStake = await stakerContract.getUserStake(msgSender);
 
       console.log(
         "\t",
@@ -422,7 +389,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       const txResult6 = await burnResult1.wait();
       expect(txResult6.status).to.equal(1);
 
-      const endingStake = await stakerContract.getUserStake(msgSender, apiKey);
+      const endingStake = await stakerContract.getUserStake(msgSender);
       console.log(
         "\t",
         " ⚖️ Ending stake: ",
@@ -433,7 +400,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
 
     it("Should retrieve token listing from contract", async function () {
       console.log("\t", " ⏳ Retrieving token listings...");
-      const txResult = await stakerContract.getActiveStakes(apiKey);
+      const txResult = await stakerContract.getActiveStakes();
       console.log(
         "\t",
         " ⏳ Waiting for confirmation from getListings function..."
@@ -454,8 +421,7 @@ describe("🚩 Testing: 🥩  StakerRewards!", function () {
       const startingBalance = await coinContract.balanceOf(msgSender);
       const ttransfer = await stakerContract.transferTokens(
         msgSender,
-        ethers.utils.parseEther("10000"),
-        apiKey
+        ethers.utils.parseEther("10000")
       );
       console.log(
         "\t",

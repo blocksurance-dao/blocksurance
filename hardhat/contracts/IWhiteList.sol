@@ -21,8 +21,5 @@ interface IWhiteList {
 
 	function removeToken(address _addr) external;
 
-	function getListings(address _apiKey)
-		external
-		view
-		returns (Token[] memory);
+	function getListings() external view returns (Token[] memory);
 }

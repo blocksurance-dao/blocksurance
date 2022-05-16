@@ -1,11 +1,10 @@
-// SPDX-License-Identifier: GPL-v3.0
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
 import "./IERC20.sol";
 
 contract Vault {
 	string private _name;
-	bytes32 private apiKey;
 	address payable private owner;
 	address public serviceContract;
 
@@ -17,15 +16,13 @@ contract Vault {
 		address mainVault,
 		address deployerAddress,
 		string memory vaultName,
-		address refAddress,
-		bytes32 _apiKey
+		address refAddress
 	) {
 		serviceContract = tokenAddress;
 		owner = payable(deployerAddress);
 		mainVaultAddress = mainVault;
 		_name = vaultName;
 		_refAddress = refAddress;
-		apiKey = _apiKey;
 	}
 
 	event DepositTokens(address user, uint256 tokens, uint256 time);
@@ -33,14 +30,6 @@ contract Vault {
 
 	modifier onlyOwner() {
 		require(msg.sender == owner, "You're not the owner!");
-		_;
-	}
-
-	modifier validKey(address _apiKey) {
-		require(
-			apiKey == keccak256(abi.encodePacked(_apiKey)),
-			"Access denied!"
-		);
 		_;
 	}
 
@@ -54,11 +43,7 @@ contract Vault {
 		_name = newname;
 	}
 
-	function storeTokens(address _apiKey, uint256 tokenAmount)
-		external
-		onlyOwner
-		validKey(_apiKey)
-	{
+	function storeTokens(uint256 tokenAmount) external onlyOwner {
 		IERC20 tokenContract = IERC20(serviceContract);
 
 		require(
@@ -89,11 +74,7 @@ contract Vault {
 		emit DepositTokens(msg.sender, tokenAmount, block.timestamp);
 	}
 
-	function withdrawTokens(address _apiKey)
-		public
-		onlyOwner
-		validKey(_apiKey)
-	{
+	function withdrawTokens() public onlyOwner {
 		IERC20 tokenContract = IERC20(serviceContract);
 		uint256 tokenAmount = tokenContract.balanceOf(address(this));
 		require(tokenAmount > 0, "The vault is empty!");

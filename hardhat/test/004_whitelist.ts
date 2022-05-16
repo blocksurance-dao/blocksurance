@@ -8,19 +8,17 @@ use(solidity);
 describe("🚩 Testing: 🥩 Whitelist", async function () {
   this.timeout(45000);
 
-  let apiKey: any;
   let msgSender: any;
   let coinContract: any;
   let whitelistContract: any;
 
   it("Should set env vars", async function () {
-    const [owner, secondAccount] = await ethers.getSigners();
+    const [owner] = await ethers.getSigners();
     msgSender = owner.address;
-    apiKey = secondAccount.address;
   });
   it("Should deploy Whitelist", async function () {
     const whiteList = await ethers.getContractFactory("WhiteList");
-    whitelistContract = await whiteList.deploy(apiKey);
+    whitelistContract = await whiteList.deploy();
     console.log("Whitelist contract: ", whitelistContract.address);
   });
   it("Should deploy ERC20Coin", async function () {
@@ -92,21 +90,10 @@ describe("🚩 Testing: 🥩 Whitelist", async function () {
     const txResult = await wlResult.wait();
     expect(txResult.status).to.equal(1);
   });
-  // it("Should fail to add same token to whitelist", async function () {
-  //   await expect(
-  //     whitelistContract.listToken("PIMPDADDY", "4SHIZZLE", coinContract.address)
-  //   ).to.be.revertedWith("Token Exists!");
-  // });
-  it("Should fail to retrieve token listing from contract", async function () {
-    await expect(
-      whitelistContract.getListings(
-        "0x0165878A594ca255338adfa4d48449f69242Eb8F" // wrong apiKey
-      )
-    ).to.be.revertedWith("Access denied!");
-  });
+
   it("Should retrieve token listing from contract", async function () {
     console.log("\t", " ⏳ Retrieving token listings...");
-    const txResult = await whitelistContract.getListings(apiKey);
+    const txResult = await whitelistContract.getListings();
     console.log(
       "\t",
       " ⏳ Waiting for confirmation from getListings function..."
@@ -125,7 +112,7 @@ describe("🚩 Testing: 🥩 Whitelist", async function () {
     const txResult = await rtResult.wait();
     expect(txResult.status).to.equal(1);
     console.log("\t", " ⏳ Retrieving token listings...");
-    const glResult = await whitelistContract.getListings(apiKey);
+    const glResult = await whitelistContract.getListings();
     console.log(
       "\t",
       " ⏳ Waiting for confirmation from getListings function..."

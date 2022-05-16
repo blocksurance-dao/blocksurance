@@ -8,7 +8,6 @@ use(solidity);
 describe("🚩 Testing: 🥩  Vendor!", function () {
   this.timeout(45000);
 
-  let apiKey: any;
   let msgSender: any;
   let coinContract: any;
   let vendorContract: any;
@@ -18,7 +17,6 @@ describe("🚩 Testing: 🥩  Vendor!", function () {
   it("Should set env vars", async function () {
     const [owner, acc1] = await ethers.getSigners();
     msgSender = owner.address;
-    apiKey = acc1.address;
   });
   it("Should deploy Registar", async function () {
     await hre.network.provider.send("hardhat_reset");
@@ -26,7 +24,7 @@ describe("🚩 Testing: 🥩  Vendor!", function () {
     msgSender = owner.address;
 
     const registar = await ethers.getContractFactory("Registar");
-    registarContract = await registar.deploy(apiKey, 45454);
+    registarContract = await registar.deploy();
     console.log("Registar contract: ", registarContract.address);
   });
 
@@ -43,7 +41,6 @@ describe("🚩 Testing: 🥩  Vendor!", function () {
     const vendor = await ethers.getContractFactory("Vendor");
     vendorContract = await vendor.deploy(
       coinContract.address,
-      apiKey,
       registarContract.address
     );
   });
@@ -63,7 +60,7 @@ describe("🚩 Testing: 🥩  Vendor!", function () {
       expect(twoBalance).to.equal(
         oneBalance.add(ethers.utils.parseEther("250000000")) // 250M
       );
-      const supply = await vendorContract.checkSupply(apiKey);
+      const supply = await vendorContract.checkSupply();
       expect(ethers.utils.formatEther(supply)).to.equal(
         ethers.utils.formatEther(twoBalance)
       );
@@ -99,30 +96,24 @@ describe("🚩 Testing: 🥩  Vendor!", function () {
       expect(await vendorContract.getMinBuy()).to.equal(
         ethers.utils.parseEther("5000000") // 5M
       );
-      await vendorContract.setMinBuy(
-        ethers.utils.parseEther("4000000"),
-        apiKey
-      );
+      await vendorContract.setMinBuy(ethers.utils.parseEther("4000000"));
       expect(await vendorContract.getMinBuy()).to.equal(
         ethers.utils.parseEther("4000000") // 4M
       );
-      await vendorContract.setMinBuy(
-        ethers.utils.parseEther("5000000"),
-        apiKey
-      );
+      await vendorContract.setMinBuy(ethers.utils.parseEther("5000000"));
       expect(await vendorContract.getMinBuy()).to.equal(
         ethers.utils.parseEther("5000000") // 5M
       );
-      await vendorContract.setMinBuy(ethers.utils.parseEther("20000"), apiKey);
+      await vendorContract.setMinBuy(ethers.utils.parseEther("20000"));
       expect(await vendorContract.getMinBuy()).to.equal(
         ethers.utils.parseEther("20000") // 4M
       );
     });
     it("Should be able to set tokensPerEth variable", async () => {
       expect(await vendorContract.getPrice()).to.equal(70000);
-      await vendorContract.setPrice(50000, apiKey);
+      await vendorContract.setPrice(50000);
       expect(await vendorContract.getPrice()).to.equal(50000);
-      await vendorContract.setPrice(70000, apiKey);
+      await vendorContract.setPrice(70000);
       expect(await vendorContract.getPrice()).to.equal(70000);
     });
     it("Balance should go up when you buyTokens()", async function () {
@@ -136,7 +127,7 @@ describe("🚩 Testing: 🥩  Vendor!", function () {
       );
 
       console.log("\t", " 🔨 Buying...");
-      const buyResult = await vendorContract.buyTokens(apiKey, {
+      const buyResult = await vendorContract.buyTokens({
         value: ethers.utils.parseEther("80"),
       });
       console.log("\t", " 🏷  buyResult: ", buyResult.hash);
@@ -170,16 +161,16 @@ describe("🚩 Testing: 🥩  Vendor!", function () {
     });
     it("BuyTokens should fail after it's paused", async function () {
       console.log("\t", " 🔨 Pause Staking...");
-      await vendorContract.setPaused(true, apiKey);
+      await vendorContract.setPaused(true);
 
       await expect(
-        vendorContract.buyTokens(apiKey, {
+        vendorContract.buyTokens({
           value: ethers.utils.parseEther("80"),
         })
       ).to.be.revertedWith("Sales temporarily halted!");
 
       console.log("\t", " 🔨 UnPause Staking...");
-      await vendorContract.setPaused(false, apiKey);
+      await vendorContract.setPaused(false);
     });
 
     it("Owner should be able to withdraw balance from Vendor", async function () {
@@ -190,7 +181,7 @@ describe("🚩 Testing: 🥩  Vendor!", function () {
         parseInt(ethers.utils.formatEther(startingBalance))
       );
 
-      const vendorBalance = await vendorContract.balance(apiKey);
+      const vendorBalance = await vendorContract.balance();
       console.log(
         "\t",
         "Contract ETH balance before withdraw: ",
@@ -198,10 +189,7 @@ describe("🚩 Testing: 🥩  Vendor!", function () {
       );
 
       console.log("\t", " 💵 calling withdraw");
-      const withdrawResult = await vendorContract.withdraw(
-        vendorBalance,
-        apiKey
-      );
+      const withdrawResult = await vendorContract.withdraw(vendorBalance);
       console.log("\t", " 🏷  withdrawResult: ", withdrawResult.hash);
 
       const endingBalance = await ethers.provider.getBalance(msgSender);

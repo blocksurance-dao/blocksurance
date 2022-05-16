@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-v3.0
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
 import "./Vault.sol";
@@ -11,15 +11,10 @@ contract VaultFactory {
 	address private whitelist;
 	address payable private owner;
 
-	constructor(
-		address _apiKey,
-		address _registar,
-		address _whitelist
-	) {
+	constructor(address _registar, address _whitelist) {
 		registar = _registar;
 		whitelist = _whitelist;
 		owner = payable(msg.sender);
-		apiKey = keccak256(abi.encodePacked(_apiKey));
 	}
 
 	struct NewVault {
@@ -49,32 +44,24 @@ contract VaultFactory {
 		_;
 	}
 
-	modifier validKey(address _apiKey) {
-		require(
-			apiKey == keccak256(abi.encodePacked(_apiKey)),
-			"Access denied!"
-		);
-		_;
-	}
-
 	receive() external payable {}
 
 	/** @dev Function to start a new Vault.
 	 * @param tokenAddress Address of token you want to insure
 	 */
-	function createVault(
-		address tokenAddress,
-		address _apiKey,
-		string memory _name
-	) external payable validKey(_apiKey) returns (NewVault memory) {
+	function createVault(address tokenAddress, string memory _name)
+		external
+		payable
+		returns (NewVault memory)
+	{
 		require(msg.value == 1 ether / 200, "Insufficient payment!");
 		IWhiteList wlContract = IWhiteList(whitelist);
 		require(wlContract.get(tokenAddress) == true, "Unlisted token!");
 
 		IRegistar registarContract = IRegistar(registar);
-		bool registered = registarContract.get(msg.sender, _apiKey);
+		bool registered = registarContract.get(msg.sender);
 		require(registered == true, "Unregistered user!");
-		address refAddress = registarContract.getRef(msg.sender, apiKey);
+		address refAddress = registarContract.getRef(msg.sender);
 
 		_deployVault(tokenAddress, msg.sender, _name, refAddress);
 
@@ -101,8 +88,7 @@ contract VaultFactory {
 				address(this), //account2
 				deployerAddress,
 				vaultName,
-				refAddress,
-				apiKey
+				refAddress
 			)
 		);
 
@@ -117,20 +103,15 @@ contract VaultFactory {
 		return address(this).balance;
 	}
 
-	function getUserVaults(address _address, address _apiKey)
+	function getUserVaults(address _address)
 		public
 		view
-		validKey(_apiKey)
 		returns (NewVault[] memory)
 	{
 		return vaults[_address];
 	}
 
-	function withdraw(uint256 amount, address _apiKey)
-		public
-		onlyOwner
-		validKey(_apiKey)
-	{
+	function withdraw(uint256 amount) public onlyOwner {
 		require(address(this).balance >= amount, "Not enough ETH!");
 		(bool success, ) = owner.call{ value: amount }("");
 		require(success, "could not withdraw");
@@ -139,9 +120,8 @@ contract VaultFactory {
 	function transferTokens(
 		address tokenAddress,
 		address _to,
-		uint256 amount,
-		address _apiKey
-	) public onlyOwner validKey(_apiKey) {
+		uint256 amount
+	) public onlyOwner {
 		IERC20 tokenContract = IERC20(tokenAddress);
 		uint256 tokenAmount = tokenContract.balanceOf(address(this));
 		require(tokenAmount >= amount, "Not enough tokens!");

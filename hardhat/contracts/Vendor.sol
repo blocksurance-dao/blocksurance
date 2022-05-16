@@ -4,18 +4,12 @@ import "./IRegistar.sol";
 import "./IERC20.sol";
 
 contract Vendor {
-	constructor(
-		address _tokenAddr,
-		address _apiKey,
-		address _registar
-	) {
+	constructor(address _tokenAddr, address _registar) {
 		registar = _registar;
 		owner = payable(msg.sender);
 		serviceContract = _tokenAddr;
-		apiKey = keccak256(abi.encodePacked(_apiKey));
 	}
 
-	bytes32 private apiKey;
 	address private registar;
 	address payable private owner;
 	address private serviceContract;
@@ -33,9 +27,9 @@ contract Vendor {
 		_;
 	}
 
-	modifier Registered(address _apiKey) {
+	modifier Registered() {
 		IRegistar registarContract = IRegistar(registar);
-		bool registered = registarContract.get(msg.sender, _apiKey);
+		bool registered = registarContract.get(msg.sender);
 		require(registered == true, "Unregistered user!");
 		_;
 	}
@@ -45,25 +39,13 @@ contract Vendor {
 		_;
 	}
 
-	modifier validKey(address _apiKey) {
-		require(
-			apiKey == keccak256(abi.encodePacked(_apiKey)),
-			"Access denied!"
-		);
-		_;
-	}
-
 	receive() external payable {}
 
 	function getMinBuy() external view returns (uint256) {
 		return minimalBuy;
 	}
 
-	function setMinBuy(uint256 _amount, address _apiKey)
-		external
-		onlyOwner
-		validKey(_apiKey)
-	{
+	function setMinBuy(uint256 _amount) external onlyOwner {
 		minimalBuy = _amount;
 	}
 
@@ -71,48 +53,24 @@ contract Vendor {
 		return tokensPerEth;
 	}
 
-	function setPrice(uint256 _amount, address _apiKey)
-		external
-		onlyOwner
-		validKey(_apiKey)
-	{
+	function setPrice(uint256 _amount) external onlyOwner {
 		tokensPerEth = _amount;
 	}
 
-	function setPaused(bool value, address _apiKey)
-		public
-		onlyOwner
-		validKey(_apiKey)
-	{
+	function setPaused(bool value) public onlyOwner {
 		paused = value;
 	}
 
-	function checkSupply(address _apiKey)
-		public
-		view
-		validKey(_apiKey)
-		returns (uint256)
-	{
+	function checkSupply() public view returns (uint256) {
 		IERC20 tokenContract = IERC20(serviceContract);
 		return tokenContract.balanceOf(address(this));
 	}
 
-	function balance(address _apiKey)
-		public
-		view
-		validKey(_apiKey)
-		returns (uint256)
-	{
+	function balance() public view returns (uint256) {
 		return address(this).balance;
 	}
 
-	function buyTokens(address _apiKey)
-		external
-		payable
-		notPaused
-		validKey(_apiKey)
-		Registered(_apiKey)
-	{
+	function buyTokens() external payable notPaused Registered {
 		uint256 tokenAmount = msg.value * tokensPerEth;
 		totalSold = totalSold + tokenAmount;
 		IERC20 tokenContract = IERC20(serviceContract);
@@ -130,11 +88,7 @@ contract Vendor {
 		emit BuyTokens(msg.sender, msg.value, tokenAmount);
 	}
 
-	function withdraw(uint256 amount, address _apiKey)
-		public
-		onlyOwner
-		validKey(_apiKey)
-	{
+	function withdraw(uint256 amount) public onlyOwner {
 		require(address(this).balance >= amount, "Not enough ETH!");
 		(bool success, ) = owner.call{ value: amount }("");
 		require(success, "could not withdraw");
