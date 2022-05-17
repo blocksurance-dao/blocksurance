@@ -15,7 +15,7 @@ contract Registar {
 	mapping(address => User) private userMap;
 	mapping(address => bool) private registar;
 	mapping(address => address) private refCode;
-	mapping(address => address[]) private refferals;
+	mapping(address => address[]) private referral;
 
 	constructor() {
 		owner = payable(msg.sender);
@@ -35,7 +35,7 @@ contract Registar {
 
 		refCode[msg.sender] = _addr;
 		registar[msg.sender] = true;
-		refferals[_addr].push(msg.sender);
+		referral[_addr].push(msg.sender);
 		userList.push(User(msg.sender, _addr, block.timestamp));
 		userMap[msg.sender] = User(msg.sender, _addr, block.timestamp);
 	}
@@ -67,14 +67,14 @@ contract Registar {
 		return userList;
 	}
 
-	/** @dev Function to get all refferals for a user.
+	/** @dev Function to get all referral for a user.
 	 * @return Array of addresses
 	 */
-	function getRefferals(address _addr)
+	function getreferral(address _addr)
 		external
 		view
 		returns (address[] memory)
 	{
-		return refferals[_addr];
+		return referral[_addr];
 	}
 }
