@@ -11,6 +11,7 @@
 /build-saved
 /build-saved2
 /build**
+/hardhat-saved
 
 # production
 /build
