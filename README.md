@@ -1,14 +1,8 @@
 # BLOCKSURANCE dApp
 
-![alt text](https://github.com/blocksurance-dao/blocksurance/blob/master/src/assets/images/BlocksuranceWeb1.png)
-
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b654c94e-08a6-4b79-b443-7837581b1d8d/deploy-status)](https://app.netlify.com/sites/blocksurance/deploys)
 
-**Coin:** View BLOCKSURANCE (4SURE) ERC20 Token on [etherscan](https://etherscan.io/address/0x88888883D7434785e02AC8475B9c9E7b1d3Dd293).
-
 **DAO:** BLOCKSURANCE DAO is live on [Snapshot](https://snapshot.org/#/0xswinger.eth/about)!
-
-**Whitepaper:** Read our [whitepaper](https://github.com/blocksurance-dao/blocksurance/blob/master/blocksurance-whitepaper.pdf)!
 
 **Read the docs:** BLOCKSURANCE uses [Gitbook](https://blocksurance.gitbook.io/blocksurance/)!
 
